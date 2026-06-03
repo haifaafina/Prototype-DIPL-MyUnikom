@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wireframe Interaktif My Academic UNIKOM</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --surface: #ffffff;
+      --surface-2: #eef2f6;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #d1d5db;
+      --primary: #0f8ebd;
+      --primary-dark: #0b6f94;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --sidebar: #17232b;
+      --sidebar-text: #e5e7eb;
+      --focus: #facc15;
+      --font-size: 15px;
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --surface: #111827;
+      --surface-2: #1f2937;
+      --text: #f9fafb;
+      --muted: #cbd5e1;
+      --line: #374151;
+      --sidebar: #020617;
+      --sidebar-text: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: var(--font-size);
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button:focus,
+    input:focus,
+    select:focus,
+    textarea:focus,
+    a:focus {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--sidebar);
+      color: var(--sidebar-text);
+      padding: 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+
+    .logo-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 2px dashed rgba(255,255,255,.5);
+      display: grid;
+      place-items: center;
+      font-weight: bold;
+    }
+
+    .brand h1 {
+      font-size: 16px;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      font-size: 12px;
+      color: #b6c2cc;
+    }
+
+    .nav-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin: 18px 0 8px;
+      color: #9ca3af;
+    }
+
+    .nav-btn {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: var(--sidebar-text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      background: rgba(255,255,255,.12);
+    }
+
+    .nav-btn .icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      border: 1px dashed rgba(255,255,255,.4);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .global-search {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface-2);
+      color: var(--text);
+    }
+
+    .search-results {
+      position: absolute;
+      top: 48px;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: 0 12px 24px rgba(0,0,0,.12);
+      display: none;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .search-results button {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .search-results button:hover {
+      background: var(--surface-2);
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: var(--surface-2);
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .btn.primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn.success {
+      background: var(--success);
+      color: white;
+      border-color: var(--success);
+    }
+
+    .btn.warning {
+      background: var(--warning);
+      color: #111827;
+      border-color: var(--warning);
+    }
+
+    .content {
+      padding: 22px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+      animation: fade .18s ease-in-out;
+    }
+
+    @keyframes fade {
+      from { opacity: .4; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .page-header h2 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .page-header p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.04);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .wire {
+      border: 2px dashed var(--line);
+      border-radius: 12px;
+      min-height: 70px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      background: var(--surface-2);
+      text-align: center;
+      padding: 12px;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stat strong {
+      font-size: 24px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 13px;
+      border: 1px solid var(--line);
+    }
+
+    .badge.success {
+      background: rgba(22,163,74,.12);
+      color: var(--success);
+    }
+
+    .badge.warning {
+      background: rgba(245,158,11,.14);
+      color: var(--warning);
+    }
+
+    .alert {
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      margin-bottom: 16px;
+    }
+
+    .alert.warning {
+      border-color: #f59e0b;
+      background: rgba(245,158,11,.12);
+    }
+
+    .alert.success {
+      border-color: #16a34a;
+      background: rgba(22,163,74,.12);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+
+    th {
+      background: var(--surface-2);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 12px;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .step.active {
+      background: rgba(15,142,189,.12);
+      color: var(--primary);
+      border-color: var(--primary);
+      font-weight: bold;
+    }
+
+    .step.done {
+      background: rgba(22,163,74,.12);
+      color: var(--success);
+      border-color: var(--success);
+    }
+
+    .krs-step {
+      display: none;
+    }
+
+    .krs-step.active {
+      display: block;
+    }
+
+    .course-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      margin-bottom: 10px;
+    }
+
+    .course-card p {
+      margin: 4px 0 0;
+      color: var(--muted);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .form-row input,
+    .form-row select,
+    .form-row textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 16px;
+    }
+
+    .avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 24px;
+      border: 2px dashed var(--line);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      background: var(--surface-2);
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #111827;
+      color: white;
+      padding: 14px 16px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      transform: translateY(120px);
+      opacity: 0;
+      transition: .25s;
+      z-index: 50;
+      max-width: 340px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .chat-toggle {
+      position: fixed;
+      right: 20px;
+      bottom: 86px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--primary);
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      z-index: 40;
+    }
+
+    .chatbox {
+      display: none;
+      position: fixed;
+      right: 20px;
+      bottom: 154px;
+      width: 340px;
+      max-width: calc(100vw - 40px);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 35px rgba(0,0,0,.22);
+      z-index: 40;
+    }
+
+    .chatbox.open {
+      display: block;
+    }
+
+    .chat-head {
+      background: var(--primary);
+      color: white;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-body {
+      height: 260px;
+      padding: 14px;
+      overflow-y: auto;
+      background: var(--surface-2);
+    }
+
+    .msg {
+      padding: 10px 12px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+      max-width: 85%;
+    }
+
+    .msg.bot {
+      background: var(--surface);
+      border: 1px solid var(--line);
+    }
+
+    .msg.user {
+      background: var(--primary);
+      color: white;
+      margin-left: auto;
+    }
+
+    .chat-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .chat-form input {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 60;
+      padding: 20px;
+      place-items: center;
+    }
+
+    .modal-backdrop.open {
+      display: grid;
+    }
+
+    .modal {
+      width: min(620px, 100%);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 20px;
+      border: 1px solid var(--line);
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .shortcut-help {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 8px;
+      background: var(--focus);
+      color: #111827;
+      padding: 8px 12px;
+      border-radius: 8px;
+      z-index: 100;
+    }
+
+    .skip-link:focus {
+      left: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        height: auto;
+        position: static;
+      }
+
+      .grid.cols-3,
+      .grid.cols-2,
+      .stepper,
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#mainContent" class="skip-link">Lewati ke konten utama</a>
+
+  <div class="app">
+    <aside class="sidebar" aria-label="Navigasi utama">
+      <div class="brand">
+        <div class="logo-box" aria-hidden="true"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div>
+          <h1>MY ACADEMIC</h1>
+        </div>
+      </div>
+
+      <div class="nav-section-title">Menu Utama</div>
+      <button class="nav-btn active" data-page="dashboard">
+        <span class="icon"><i class="fa-solid fa-house"></i></span> Dashboard
+      </button>
+      <button class="nav-btn" data-page="akademik">
+        <span class="icon"><i class="fa-solid fa-book-bookmark"></i></span> Akademik
+      </button>
+      <button class="nav-btn" data-page="krs">
+        <span class="icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span> KRS Wizard
+      </button>
+      <button class="nav-btn" data-page="jadwal">
+        <span class="icon"><i class="fa-solid fa-calendar-days"></i></span> Jadwal Kuliah
+      </button>
+      <button class="nav-btn" data-page="nilai">
+        <span class="icon"><i class="fa-solid fa-file-invoice"></i></span> Riwayat Nilai
+      </button>
+
+      <div class="nav-section-title">Administrasi</div>
+      <button class="nav-btn" data-page="profil">
+        <span class="icon"><i class="fa-solid fa-user"></i></span> Profil
+      </button>
+      <button class="nav-btn" data-page="aktivitas">
+        <span class="icon"><i class="fa-solid fa-award"></i></span> Aktivitas Mahasiswa
+      </button>
+      <button class="nav-btn" data-page="wisuda">
+        <span class="icon"><i class="fa-solid fa-scroll"></i></span> Persyaratan Wisuda
+      </button>
+
+      <div class="nav-section-title">Bantuan</div>
+      <button class="nav-btn" data-page="bantuan">
+        <span class="icon"><i class="fa-solid fa-circle-question"></i></span> Pusat Bantuan
+      </button>
+      <button class="nav-btn" id="startTourBtn">
+        <span class="icon"><i class="fa-solid fa-map"></i></span> Panduan Pengguna Baru
+      </button>
+
+      <p class="shortcut-help">
+        Akses keyboard: tekan <b>Alt + S</b> untuk search, <b>Alt + B</b> untuk chatbot.
+      </p>
+    </aside>
+
+    <main class="main" id="mainContent" tabindex="-1">
+      <header class="topbar">
+        <div class="search-wrap">
+          <label for="globalSearch" class="sr-only">Cari menu akademik</label>
+          <input
+            id="globalSearch"
+            class="global-search"
+            type="search"
+            placeholder="Cari menu: KRS, nilai, jadwal, profil, kuesioner, wisuda..."
+            aria-label="Search bar global untuk mencari fitur akademik"
+          />
+          <div class="search-results" id="searchResults" role="listbox" aria-label="Hasil pencarian"></div>
+        </div>
+
+        <div class="top-actions" aria-label="Pengaturan cepat">
+          <button class="btn" id="fontMinus" title="Perkecil font">A-</button>
+          <button class="btn" id="fontPlus" title="Perbesar font">A+</button>
+          <button class="btn" id="darkModeBtn">Dark Mode</button>
+          <button class="btn" id="dataSaverBtn">Mode Hemat Data</button>
+          <button class="btn primary" onclick="showToast('Profil pengguna dibuka. Ini contoh feedback langsung dari sistem.')">
+            HAIFA AFINA
+          </button>
+        </div>
+      </header>
+
+      <section class="content">
+        <section class="page active" id="dashboard">
+          <div class="page-header">
+            <div>
+              <h2>Dashboard</h2>
+            </div>
+            <button class="btn primary" onclick="showToast('Widget berhasil disesuaikan. Dashboard dapat dikustomisasi pengguna.')">
+              Atur Widget
+            </button>
+          </div>
+
+          <div class="grid cols-3">
+            <div class="card stat">
+              <div>
+                <h3>Semester Aktif</h3>
+                <p>2025/2026 Genap</p>
+              </div>
+              <strong>6</strong>
+            </div>
+            <div class="card stat">
+              <div>
+                <h3>Total SKS</h3>
+                <p>KRS semester ini</p>
+              </div>
+              <strong>20</strong>
+            </div>
+            <div class="card stat">
+              <div>
+                <h3>Status KRS</h3>
+                <p>Perlu persetujuan dosen wali</p>
+              </div>
+              <span class="badge warning">Menunggu</span>
+            </div>
+          </div>
+
+          <br/>
+
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>Shortcut Favorit</h3>
+              <div class="grid">
+                <button class="btn" onclick="openPage('krs')">Buka KRS Wizard</button>
+                <button class="btn" onclick="openPage('jadwal')">Lihat Jadwal Kuliah</button>
+                <button class="btn" onclick="openPage('nilai')">Lihat Riwayat Nilai</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Progress Akademik</h3>
+              <div class="wire">
+                Placeholder grafik progress IPK, SKS lulus, dan rekomendasi mata kuliah.
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Notifikasi Akademik</h3>
+              <p><span class="badge warning">Info</span> Pengisian kelas perkuliahan akan dibuka sesuai jadwal akademik.</p>
+              <p><span class="badge success">Selesai</span> Biodata sudah diperbarui.</p>
+              <button class="btn" onclick="showToast('Semua notifikasi ditandai sudah dibaca.')">Tandai Dibaca</button>
+            </div>
+
+            <div class="card">
+              <h3>UNIKOM Live Chat</h3>
+              <p>AI menyarankan Anda memeriksa jadwal bentrok sebelum menyimpan KRS.</p>
+              <button class="btn primary" onclick="askBot('Bagaimana cara mengecek jadwal bentrok?')">Tanya Unikom-Bot</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="akademik">
+          <div class="page-header">
+            <div>
+              <h2>Akademik</h2>
+            </div>
+          </div>
+
+          <div class="grid cols-3">
+            <div class="card">
+              <h3>KRS & Rencana Studi</h3>
+              <p>Pengisian KRS, persetujuan rencana studi, dan pemilihan kelas.</p>
+              <button class="btn primary" onclick="openPage('krs')">Buka</button>
+            </div>
+            <div class="card">
+              <h3>Jadwal Kuliah</h3>
+              <p>Lihat jadwal semester aktif dan detail ruangan.</p>
+              <button class="btn primary" onclick="openPage('jadwal')">Buka</button>
+            </div>
+            <div class="card">
+              <h3>Nilai & Transkrip</h3>
+              <p>Riwayat nilai semester dan transkrip akademik.</p>
+              <button class="btn primary" onclick="openPage('nilai')">Buka</button>
+            </div>
+            <div class="card">
+              <h3>Kehadiran</h3>
+              <p>Rekap absensi perkuliahan dengan status warna.</p>
+              <button class="btn" onclick="showToast('Halaman kehadiran dibuka sebagai simulasi.')">Buka</button>
+            </div>
+            <div class="card">
+              <h3>Kuesioner</h3>
+              <p>Kuesioner perkuliahan dan layanan sekretariat.</p>
+              <button class="btn" onclick="showToast('Kuesioner sedang tidak tersedia. Sistem memberikan pesan yang jelas.')">Buka</button>
+            </div>
+            <div class="card">
+              <h3>Kurikulum</h3>
+              <p>Daftar kurikulum berdasarkan program studi dan tahun akademik.</p>
+              <button class="btn" onclick="showToast('Kurikulum berhasil dibuka.')">Buka</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="krs">
+          <div class="page-header">
+            <div>
+              <h2>KRS Step-by-Step Wizard</h2>
+            </div>
+            <span class="badge">Semester 2025/2026 Genap</span>
+          </div>
+
+          <div class="stepper" aria-label="Progress pengisian KRS">
+            <div class="step active" id="stepLabel1">1. Pilih Mata Kuliah</div>
+            <div class="step" id="stepLabel2">2. Pilih Kelas</div>
+            <div class="step" id="stepLabel3">3. Cek Bentrok</div>
+            <div class="step" id="stepLabel4">4. Konfirmasi</div>
+          </div>
+
+          <div class="card">
+            <div class="krs-step active" id="krsStep1">
+              <h3>Pilih Mata Kuliah</h3>
+              <p>Pilih mata kuliah yang ingin diambil. Sistem menampilkan SKS dan status rekomendasi.</p>
+
+              <div class="course-card">
+                <div>
+                  <strong>Bahasa Indonesia</strong>
+                  <p>2 SKS · Direkomendasikan · Tidak ada prasyarat</p>
+                </div>
+                <button class="btn primary" onclick="selectCourse(this)">Pilih</button>
+              </div>
+
+              <div class="course-card">
+                <div>
+                  <strong>Matematika Sains Data 1</strong>
+                  <p>3 SKS · Direkomendasikan · Prasyarat terpenuhi</p>
+                </div>
+                <button class="btn primary" onclick="selectCourse(this)">Pilih</button>
+              </div>
+
+              <div class="course-card">
+                <div>
+                  <strong>Algoritma dan Struktur Data 1</strong>
+                  <p>4 SKS · Direkomendasikan · Kuota tersedia</p>
+                </div>
+                <button class="btn primary" onclick="selectCourse(this)">Pilih</button>
+              </div>
+            </div>
+
+            <div class="krs-step" id="krsStep2">
+              <h3>Pilih Kelas</h3>
+              <p>Ringkasan kuota kelas ditampilkan secara real-time agar pengguna tidak salah memilih.</p>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Mata Kuliah</th>
+                      <th>Kelas</th>
+                      <th>Hari</th>
+                      <th>Waktu</th>
+                      <th>Kuota</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Bahasa Indonesia</td>
+                      <td>IF-6</td>
+                      <td>Senin</td>
+                      <td>10.20 - 12.00</td>
+                      <td><span class="badge success">28/45</span></td>
+                      <td><button class="btn primary" onclick="showToast('Kelas IF-6 dipilih.')">Pilih</button></td>
+                    </tr>
+                    <tr>
+                      <td>Matematika Sains Data 1</td>
+                      <td>IF-6</td>
+                      <td>Selasa</td>
+                      <td>13.00 - 15.30</td>
+                      <td><span class="badge warning">42/45</span></td>
+                      <td><button class="btn primary" onclick="showToast('Kelas IF-6 dipilih. Kuota hampir penuh.')">Pilih</button></td>
+                    </tr>
+                    <tr>
+                      <td>Algoritma dan Struktur Data 1</td>
+                      <td>IF-6</td>
+                      <td>Rabu</td>
+                      <td>08.00 - 10.30</td>
+                      <td><span class="badge success">31/45</span></td>
+                      <td><button class="btn primary" onclick="showToast('Kelas IF-6 dipilih.')">Pilih</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="krs-step" id="krsStep3">
+              <h3>Cek Jadwal Bentrok</h3>
+              <div class="alert success">
+                Tidak ditemukan jadwal bentrok. Semua mata kuliah dapat diambil.
+              </div>
+              <div class="wire">
+                Placeholder kalender mingguan: Senin, Selasa, Rabu, Kamis, Jumat dengan blok jadwal.
+              </div>
+            </div>
+
+            <div class="krs-step" id="krsStep4">
+              <h3>Konfirmasi KRS</h3>
+              <p>Periksa kembali pilihan mata kuliah sebelum dikirim ke dosen wali.</p>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Mata Kuliah</th>
+                      <th>SKS</th>
+                      <th>Kelas</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Bahasa Indonesia</td>
+                      <td>2</td>
+                      <td>IF-6</td>
+                      <td><span class="badge success">Valid</span></td>
+                    </tr>
+                    <tr>
+                      <td>Matematika Sains Data 1</td>
+                      <td>3</td>
+                      <td>IF-6</td>
+                      <td><span class="badge success">Valid</span></td>
+                    </tr>
+                    <tr>
+                      <td>Algoritma dan Struktur Data 1</td>
+                      <td>4</td>
+                      <td>IF-6</td>
+                      <td><span class="badge success">Valid</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <br/>
+              <button class="btn success" onclick="confirmKrs()">Kirim KRS ke Dosen Wali</button>
+            </div>
+
+            <br/>
+            <div style="display:flex; gap:8px; justify-content:space-between; flex-wrap:wrap;">
+              <button class="btn" onclick="prevKrsStep()">Sebelumnya</button>
+              <button class="btn primary" onclick="nextKrsStep()">Lanjut</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="jadwal">
+          <div class="page-header">
+            <div>
+              <h2>Jadwal Kuliah</h2>
+            </div>
+            <button class="btn" onclick="showToast('Jadwal berhasil dibagikan ke grup studi.')">Bagikan Jadwal</button>
+          </div>
+
+          <div class="card">
+            <div class="form-row">
+              <label for="filterHari">Filter Hari</label>
+              <select id="filterHari" onchange="filterSchedule()">
+                <option value="all">Semua Hari</option>
+                <option value="Senin">Senin</option>
+                <option value="Selasa">Selasa</option>
+                <option value="Rabu">Rabu</option>
+              </select>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Mata Kuliah</th>
+                    <th>Jenis</th>
+                    <th>Hari</th>
+                    <th>Waktu</th>
+                    <th>Ruang</th>
+                    <th>Dosen</th>
+                  </tr>
+                </thead>
+                <tbody id="scheduleTable">
+                  <tr data-day="Senin">
+                    <td>1</td>
+                    <td>Bahasa Indonesia</td>
+                    <td>Tatap Muka</td>
+                    <td>Senin</td>
+                    <td>10.20 - 12.00</td>
+                    <td>R.407</td>
+                    <td>Dosen A</td>
+                  </tr>
+                  <tr data-day="Selasa">
+                    <td>2</td>
+                    <td>Matematika Sains Data 1</td>
+                    <td>Tatap Muka</td>
+                    <td>Selasa</td>
+                    <td>13.00 - 15.30</td>
+                    <td>R.507</td>
+                    <td>Dosen B</td>
+                  </tr>
+                  <tr data-day="Rabu">
+                    <td>3</td>
+                    <td>Algoritma dan Struktur Data 1</td>
+                    <td>Tatap Muka</td>
+                    <td>Rabu</td>
+                    <td>08.00 - 10.30</td>
+                    <td>Lab</td>
+                    <td>Dosen C</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="nilai">
+          <div class="page-header">
+            <div>
+              <h2>Riwayat Nilai</h2>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <button class="tab active" onclick="switchGradeTab(event, 'semester')">Per Semester</button>
+            <button class="tab" onclick="switchGradeTab(event, 'transkrip')">Transkrip</button>
+          </div>
+
+          <div class="card" id="gradeSemester">
+            <h3>Semester 2025/2026 Genap</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Kode</th>
+                    <th>Nama Mata Kuliah</th>
+                    <th>SKS</th>
+                    <th>Nilai</th>
+                    <th>Bobot</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>00002</td><td>Bahasa Indonesia</td><td>2</td><td>A</td><td>4.00</td><td>8.00</td></tr>
+                  <tr><td>01152</td><td>Matematika Sains Data 1</td><td>3</td><td>A</td><td>4.00</td><td>12.00</td></tr>
+                  <tr><td>01153</td><td>Algoritma dan Struktur Data 1</td><td>4</td><td>B</td><td>3.00</td><td>12.00</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" id="gradeTranskrip" style="display:none;">
+            <h3>Transkrip Akademik</h3>
+            <div class="wire">
+              Placeholder tabel transkrip lengkap seluruh semester + grafik IPK.
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="profil">
+          <div class="page-header">
+            <div>
+              <h2>Profil Mahasiswa</h2>
+            </div>
+          </div>
+
+          <div class="card profile-grid">
+            <div class="avatar">Foto Profil</div>
+            <div>
+              <div class="tabs">
+                <button class="tab active">Akademik</button>
+                <button class="tab">Biodata</button>
+                <button class="tab">Akun & Kontak</button>
+                <button class="tab">Ganti Password</button>
+              </div>
+
+              <div class="form-row">
+                <label>Program Studi</label>
+                <input value="Teknik Informatika" />
+              </div>
+              <div class="form-row">
+                <label>Jenjang</label>
+                <input value="S1" />
+              </div>
+              <div class="form-row">
+                <label>Kelas</label>
+                <input value="IF-6" />
+              </div>
+              <div class="form-row">
+                <label>Dosen Wali</label>
+                <input value="Nama Dosen Wali" />
+              </div>
+
+              <button class="btn success" onclick="showToast('Data profil berhasil disimpan.')">
+                Simpan Perubahan
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="aktivitas">
+          <div class="page-header">
+            <div>
+              <h2>Aktivitas Kemahasiswaan</h2>
+            </div>
+          </div>
+
+          <div class="alert success">
+            Petunjuk pengisian ditampilkan di dekat form agar mahasiswa tidak perlu mencari panduan di halaman lain.
+          </div>
+
+          <div class="card">
+            <div class="form-row">
+              <label for="tahunAktivitas">Tahun Akademik/Semester</label>
+              <select id="tahunAktivitas">
+                <option>2025/2026 Genap</option>
+                <option>2025/2026 Ganjil</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="kategoriAktivitas">Kategori</label>
+              <select id="kategoriAktivitas">
+                <option>Seminar</option>
+                <option>Organisasi</option>
+                <option>Lomba</option>
+                <option>Pengabdian</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="namaAktivitas">Nama Aktivitas</label>
+              <input id="namaAktivitas" placeholder="Contoh: Seminar Nasional UI/UX" />
+            </div>
+            <div class="form-row">
+              <label for="buktiAktivitas">Upload Bukti</label>
+              <input id="buktiAktivitas" type="file" />
+            </div>
+            <button class="btn success" onclick="showToast('Aktivitas mahasiswa berhasil ditambahkan sebagai simulasi.')">
+              Tambah Aktivitas
+            </button>
+          </div>
+        </section>
+
+        <section class="page" id="wisuda">
+          <div class="page-header">
+            <div>
+              <h2>Persyaratan Wisuda</h2>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Checklist Persyaratan</h3>
+            <p><span class="badge success">Selesai</span> SKS minimum terpenuhi</p>
+            <p><span class="badge success">Selesai</span> Tidak ada tunggakan administrasi</p>
+            <p><span class="badge warning">Perlu Cek</span> Upload berkas persyaratan</p>
+            <p><span class="badge warning">Perlu Cek</span> Validasi dosen wali</p>
+            <button class="btn primary" onclick="showToast('Sistem membuka detail berkas wisuda.')">Lihat Detail Berkas</button>
+          </div>
+        </section>
+
+        <section class="page" id="bantuan">
+          <div class="page-header">
+            <div>
+              <h2>Pusat Bantuan</h2>
+            </div>
+          </div>
+
+          <div class="grid cols-2">
+            <div class="card">
+              <h3>FAQ Akademik</h3>
+              <button class="btn" onclick="askBot('Bagaimana cara mengisi KRS?')">Cara mengisi KRS</button>
+              <button class="btn" onclick="askBot('Apa yang harus dilakukan jika kelas penuh?')">Jika kelas penuh</button>
+              <button class="btn" onclick="askBot('Bagaimana melihat transkrip nilai?')">Melihat transkrip</button>
+            </div>
+
+            <div class="card">
+              <h3>Kontak Dosen Wali</h3>
+              <p>Hubungi dosen wali langsung dari sistem tanpa mencari kontak manual.</p>
+              <button class="btn primary" onclick="showToast('Pesan ke dosen wali berhasil dibuat sebagai simulasi.')">Hubungi Dosen Wali</button>
+            </div>
+
+            <div class="card">
+              <h3>Aksesibilitas</h3>
+              <p>Pengguna dapat mengubah ukuran font, dark mode, mode hemat data, dan menavigasi sistem memakai keyboard.</p>
+              <button class="btn" onclick="document.getElementById('fontPlus').click()">Perbesar Font</button>
+              <button class="btn" onclick="document.getElementById('darkModeBtn').click()">Aktifkan Dark Mode</button>
+            </div>
+
+            <div class="card">
+              <h3>Log Keamanan</h3>
+              <p>Transparansi akses akun untuk mendukung privasi dan keamanan data mahasiswa.</p>
+              <div class="wire">Placeholder riwayat login dan perangkat aktif.</div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <button class="chat-toggle" id="chatToggle" aria-label="Buka Unikom-Bot">💬</button>
+
+  <section class="chatbox" id="chatbox" aria-label="Unikom-Bot chatbot">
+    <div class="chat-head">
+      <strong>Unikom-Bot</strong>
+      <button class="btn" onclick="toggleChat()" aria-label="Tutup chatbot">×</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="msg bot">
+        Halo! Saya Unikom-Bot. Saya bisa membantu mencari menu, menjelaskan KRS, nilai, jadwal, dan persyaratan wisuda.
+      </div>
+    </div>
+    <form class="chat-form" id="chatForm">
+      <input id="chatInput" placeholder="Tulis pertanyaan..." aria-label="Tulis pertanyaan ke chatbot"/>
+      <button class="btn primary" type="submit">Kirim</button>
+    </form>
+  </section>
+
+  <div class="modal-backdrop" id="tourModal" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+    <div class="modal">
+      <h2 id="tourTitle">Panduan Pengguna Baru</h2>
+      <p id="tourText">
+        Selamat datang di My Academic baru. Menu utama sudah disederhanakan menjadi Dashboard, Akademik, Administrasi, dan Bantuan.
+      </p>
+      <div class="modal-actions">
+        <button class="btn" onclick="closeTour()">Lewati</button>
+        <button class="btn primary" onclick="nextTour()">Lanjut</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    const navButtons = document.querySelectorAll('.nav-btn[data-page]');
+    const searchInput = document.getElementById('globalSearch');
+    const searchResults = document.getElementById('searchResults');
+    const toast = document.getElementById('toast');
+
+    const menuItems = [
+      { label: 'Dashboard', page: 'dashboard', desc: 'Ringkasan akademik dan widget' },
+      { label: 'Akademik', page: 'akademik', desc: 'KRS, jadwal, nilai, kurikulum, kuesioner' },
+      { label: 'KRS Wizard', page: 'krs', desc: 'Pengisian KRS bertahap' },
+      { label: 'Jadwal Kuliah', page: 'jadwal', desc: 'Jadwal semester aktif' },
+      { label: 'Riwayat Nilai', page: 'nilai', desc: 'Nilai per semester dan transkrip' },
+      { label: 'Profil', page: 'profil', desc: 'Data akademik dan akun' },
+      { label: 'Aktivitas Mahasiswa', page: 'aktivitas', desc: 'SPAK dan aktivitas kemahasiswaan' },
+      { label: 'Persyaratan Wisuda', page: 'wisuda', desc: 'Checklist kelulusan dan berkas' },
+      { label: 'Pusat Bantuan', page: 'bantuan', desc: 'FAQ, kontak dosen wali, aksesibilitas' }
+    ];
+
+    function openPage(pageId) {
+      pages.forEach(page => page.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+
+      navButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.page === pageId);
+      });
+
+      document.getElementById('mainContent').focus();
+      searchResults.style.display = 'none';
+    }
+
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => openPage(btn.dataset.page));
+    });
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    searchInput.addEventListener('input', () => {
+      const keyword = searchInput.value.toLowerCase().trim();
+      searchResults.innerHTML = '';
+
+      if (!keyword) {
+        searchResults.style.display = 'none';
+        return;
+      }
+
+      const filtered = menuItems.filter(item =>
+        item.label.toLowerCase().includes(keyword) ||
+        item.desc.toLowerCase().includes(keyword)
+      );
+
+      if (filtered.length === 0) {
+        searchResults.innerHTML = `<button type="button">Tidak ditemukan. Coba kata: KRS, nilai, jadwal, profil.</button>`;
+      } else {
+        filtered.forEach(item => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.innerHTML = `<strong>${item.label}</strong><br><small>${item.desc}</small>`;
+          btn.onclick = () => {
+            openPage(item.page);
+            showToast(`Menu "${item.label}" berhasil dibuka melalui search bar.`);
+            searchInput.value = '';
+          };
+          searchResults.appendChild(btn);
+        });
+      }
+
+      searchResults.style.display = 'block';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.search-wrap')) {
+        searchResults.style.display = 'none';
+      }
+    });
+
+    let krsStep = 1;
+
+    function updateKrsStep() {
+      document.querySelectorAll('.krs-step').forEach(step => step.classList.remove('active'));
+      document.getElementById(`krsStep${krsStep}`).classList.add('active');
+
+      for (let i = 1; i <= 4; i++) {
+        const label = document.getElementById(`stepLabel${i}`);
+        label.classList.remove('active', 'done');
+        if (i < krsStep) label.classList.add('done');
+        if (i === krsStep) label.classList.add('active');
+      }
+    }
+
+    function nextKrsStep() {
+      if (krsStep < 4) {
+        krsStep++;
+        updateKrsStep();
+        showToast(`Berpindah ke langkah ${krsStep}.`);
+      }
+    }
+
+    function prevKrsStep() {
+      if (krsStep > 1) {
+        krsStep--;
+        updateKrsStep();
+      }
+    }
+
+    function selectCourse(button) {
+      button.textContent = 'Dipilih';
+      button.classList.remove('primary');
+      button.classList.add('success');
+      showToast('Mata kuliah ditambahkan ke rencana studi.');
+    }
+
+    function confirmKrs() {
+      showToast('KRS berhasil dikirim ke dosen wali. Status berubah menjadi menunggu persetujuan.');
+    }
+
+    function filterSchedule() {
+      const selected = document.getElementById('filterHari').value;
+      const rows = document.querySelectorAll('#scheduleTable tr');
+
+      rows.forEach(row => {
+        const day = row.dataset.day;
+        row.style.display = selected === 'all' || day === selected ? '' : 'none';
+      });
+
+      showToast(selected === 'all' ? 'Semua jadwal ditampilkan.' : `Jadwal hari ${selected} ditampilkan.`);
+    }
+
+    function switchGradeTab(event, tabName) {
+      document.querySelectorAll('#nilai .tab').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+
+      document.getElementById('gradeSemester').style.display = tabName === 'semester' ? 'block' : 'none';
+      document.getElementById('gradeTranskrip').style.display = tabName === 'transkrip' ? 'block' : 'none';
+    }
+
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    darkModeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const active = document.body.classList.contains('dark');
+      darkModeBtn.textContent = active ? 'Light Mode' : 'Dark Mode';
+      showToast(active ? 'Dark mode aktif.' : 'Light mode aktif.');
+    });
+
+    let currentFont = 15;
+
+    document.getElementById('fontPlus').addEventListener('click', () => {
+      currentFont = Math.min(currentFont + 1, 22);
+      document.documentElement.style.setProperty('--font-size', currentFont + 'px');
+      showToast('Ukuran font diperbesar.');
+    });
+
+    document.getElementById('fontMinus').addEventListener('click', () => {
+      currentFont = Math.max(currentFont - 1, 12);
+      document.documentElement.style.setProperty('--font-size', currentFont + 'px');
+      showToast('Ukuran font diperkecil.');
+    });
+
+    document.getElementById('dataSaverBtn').addEventListener('click', () => {
+      document.body.classList.toggle('data-saver');
+      showToast('Mode hemat data aktif. Elemen visual berat disederhanakan.');
+    });
+
+    const chatbox = document.getElementById('chatbox');
+    const chatToggle = document.getElementById('chatToggle');
+    const chatBody = document.getElementById('chatBody');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+
+    function toggleChat() {
+      chatbox.classList.toggle('open');
+      if (chatbox.classList.contains('open')) {
+        chatInput.focus();
+      }
+    }
+
+    chatToggle.addEventListener('click', toggleChat);
+
+    function addMessage(text, sender) {
+      const div = document.createElement('div');
+      div.className = `msg ${sender}`;
+      div.textContent = text;
+      chatBody.appendChild(div);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function botAnswer(question) {
+      const q = question.toLowerCase();
+
+      if (q.includes('krs')) {
+        return 'Untuk mengisi KRS, buka menu KRS Wizard, lalu ikuti 4 langkah: pilih mata kuliah, pilih kelas, cek bentrok, dan konfirmasi.';
+      }
+
+      if (q.includes('bentrok')) {
+        return 'Sistem akan mengecek bentrok otomatis pada langkah ke-3 KRS Wizard. Jika ada bentrok, jadwal akan diberi tanda peringatan.';
+      }
+
+      if (q.includes('nilai') || q.includes('transkrip')) {
+        return 'Untuk melihat nilai, buka menu Riwayat Nilai. Gunakan tab Per Semester atau Transkrip.';
+      }
+
+      if (q.includes('jadwal')) {
+        return 'Untuk melihat jadwal, buka menu Jadwal Kuliah. Anda juga bisa memakai filter hari agar tabel lebih ringkas.';
+      }
+
+      if (q.includes('kelas penuh')) {
+        return 'Jika kelas penuh, pilih kelas alternatif yang masih memiliki kuota atau hubungi dosen wali melalui Pusat Bantuan.';
+      }
+
+      if (q.includes('wisuda')) {
+        return 'Persyaratan wisuda dapat dicek pada menu Persyaratan Wisuda. Sistem menampilkan checklist status berkas.';
+      }
+
+      return 'Saya dapat membantu mencari menu akademik, menjelaskan KRS, jadwal, nilai, profil, aktivitas mahasiswa, dan persyaratan wisuda.';
+    }
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+
+      addMessage(text, 'user');
+      chatInput.value = '';
+
+      setTimeout(() => {
+        addMessage(botAnswer(text), 'bot');
+      }, 400);
+    });
+
+    function askBot(text) {
+      if (!chatbox.classList.contains('open')) {
+        chatbox.classList.add('open');
+      }
+
+      addMessage(text, 'user');
+
+      setTimeout(() => {
+        addMessage(botAnswer(text), 'bot');
+      }, 400);
+    }
+
+    const tourModal = document.getElementById('tourModal');
+    const tourText = document.getElementById('tourText');
+    let tourIndex = 0;
+
+    const tourSteps = [
+      'Selamat datang di My Academic baru. Menu utama sudah disederhanakan menjadi Dashboard, Akademik, Administrasi, dan Bantuan.',
+      'Gunakan search bar global di bagian atas untuk mencari KRS, nilai, jadwal, profil, kuesioner, atau wisuda tanpa menghafal letak menu.',
+      'KRS sekarang memakai step-by-step wizard agar mahasiswa baru memahami alur secara runtut.',
+      'Gunakan tombol A-, A+, Dark Mode, dan Mode Hemat Data untuk menyesuaikan tampilan sesuai kebutuhan aksesibilitas.',
+      'Jika mengalami kesulitan, buka Unikom-Bot di kanan bawah untuk bantuan cepat tanpa meninggalkan halaman.'
+    ];
+
+    document.getElementById('startTourBtn').addEventListener('click', () => {
+      tourIndex = 0;
+      tourText.textContent = tourSteps[tourIndex];
+      tourModal.classList.add('open');
+    });
+
+    function nextTour() {
+      tourIndex++;
+      if (tourIndex >= tourSteps.length) {
+        closeTour();
+        showToast('Panduan selesai. Anda siap menggunakan sistem.');
+        return;
+      }
+      tourText.textContent = tourSteps[tourIndex];
+    }
+
+    function closeTour() {
+      tourModal.classList.remove('open');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.altKey && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        searchInput.focus();
+      }
+
+      if (e.altKey && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        toggleChat();
+      }
+
+      if (e.key === 'Escape') {
+        searchResults.style.display = 'none';
+        tourModal.classList.remove('open');
+        chatbox.classList.remove('open');
+      }
+    });
+
+    window.addEventListener('load', () => {
+      showToast('Wireframe interaktif siap diuji. Coba search bar, KRS Wizard, dark mode, dan chatbot.');
+    });
+  </script>
+</body>
+</html>
